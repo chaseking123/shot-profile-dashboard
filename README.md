@@ -1,6 +1,6 @@
 # Shot Profile Dashboard Readme
 
-## Running Locally
+## Instructions To Run Locally
 In a terminal window, navigate to the folder where this readme file (and the package.json) lives.
 Run 'npm install'
 Once the install is complete, run 'npm run dev'
@@ -26,7 +26,7 @@ If `node -v` shows an old version, install the latest Node.js LTS version before
 From the project folder (where this file currently is), run:
 
 ```bash
-npm install
+npm install (or npm ci for lockfile install)
 npm run dev
 ```
 
