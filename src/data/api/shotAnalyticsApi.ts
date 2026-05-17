@@ -6,19 +6,22 @@ import type {
   FilterableShotType,
   ShotType,
 } from "../models/shotDomain";
+import { FILTER_ALL } from "../models/shotDomain";
 import type {
   NullableShotTypeMetricMap,
   NumericShotTypeMetricMap,
 } from "../models/shotSchemas";
 
+export type MultiSelectFilterValue<TValue extends string> = TValue[];
+
 export type DashboardFilters = {
   dateFrom?: string;
   dateTo?: string;
-  shotType?: FilterableShotType;
-  outcome?: FilterOutcome;
-  contestLevel?: ContestLevel | "all";
-  creation?: CreationType | "all";
-  shotClock?: FilterableShotClockBucket;
+  shotType?: MultiSelectFilterValue<FilterableShotType>;
+  outcome?: MultiSelectFilterValue<FilterOutcome>;
+  contestLevel?: MultiSelectFilterValue<ContestLevel | typeof FILTER_ALL>;
+  creation?: MultiSelectFilterValue<CreationType | typeof FILTER_ALL>;
+  shotClock?: MultiSelectFilterValue<FilterableShotClockBucket>;
 };
 
 export type FilterOptionsResponse = {

@@ -1,0 +1,30 @@
+.dashboard-view {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dashboard-card {
+  border: 1px solid #cbd5e1;
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+  padding: 24px;
+}
+
+.dashboard-card--error {
+  border-color: #fecaca;
+  background: #fef2f2;
+}
+
+.dashboard-card h2 {
+  margin-top: 0;
+}
+
+.dashboard-card code {
+  font-family: Consolas, "Courier New", monospace;
+}
+
+.dashboard-card__header h2 {
+  margin: 0;
+}

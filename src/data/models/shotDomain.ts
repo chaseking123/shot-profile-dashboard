@@ -29,7 +29,6 @@ export const CONTEST_LEVELS = [
   "uncontested",
   "lightly_contested",
   "heavily_contested",
-  "unknown",
 ] as const;
 export type ContestLevel = (typeof CONTEST_LEVELS)[number];
 
@@ -37,7 +36,6 @@ export const CREATION_TYPES = [
   "catch_and_shoot",
   "off_dribble",
   "assisted",
-  "self_created",
 ] as const;
 export type CreationType = (typeof CREATION_TYPES)[number];
 
@@ -46,7 +44,6 @@ export const SHOT_CLOCK_BUCKETS = [
   "middle",
   "late",
   "very_late",
-  "unknown",
 ] as const;
 export type ShotClockBucket = (typeof SHOT_CLOCK_BUCKETS)[number];
 

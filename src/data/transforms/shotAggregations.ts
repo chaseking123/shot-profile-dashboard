@@ -84,7 +84,7 @@ export function buildShotTypeByPlayer(shots: ShotRecord[]): ShotTypeDistribution
     };
   });
 
-  rows.sort((a, b) => b.fga - a.fga);
+  rows.sort((a, b) => a.shooterName.localeCompare(b.shooterName));
   return [...rows, buildTeamAverageDistributionRow(shots)];
 }
 

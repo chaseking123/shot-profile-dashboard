@@ -1,0 +1,146 @@
+.shot-type-card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.shot-type-card__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  justify-content: center;
+}
+
+.shot-type-card__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font-size: 0.875rem;
+  color: #334155;
+  font: inherit;
+  cursor: pointer;
+}
+
+.shot-type-card__legend-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.shot-type-card__legend-item--active {
+  color: #1d4ed8;
+  font-weight: 700;
+}
+
+.shot-type-card__legend-indicator {
+  min-width: 10px;
+  color: #1d4ed8;
+}
+
+.shot-type-card__table {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.shot-type-card__scroll {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.shot-type-card__sticky {
+  padding-top: 0;
+}
+
+.shot-type-card__header,
+.shot-type-card__row {
+  display: grid;
+  grid-template-columns: minmax(120px, 180px) minmax(260px, 1fr) 80px;
+  gap: 16px;
+  align-items: center;
+}
+
+.shot-type-card__header {
+  padding: 0 8px;
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #1e293b;
+}
+
+.shot-type-card__header span:nth-child(2) {
+  text-align: center;
+}
+
+.shot-type-card__row {
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  background: #fff;
+  padding: 12px;
+}
+
+.shot-type-card__row--highlighted {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 1px #bfdbfe;
+}
+
+.shot-type-card__row--team-average {
+  background: #e2e8f0;
+}
+
+.shot-type-card__player {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.shot-type-card__bar {
+  display: flex;
+  overflow: hidden;
+  min-height: 40px;
+  background: #e2e8f0;
+  border-radius: 10px;
+}
+
+.shot-type-card__segment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.shot-type-card__segment-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 6px;
+}
+
+.shot-type-card__fga {
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  color: #334155;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .shot-type-card__header,
+  .shot-type-card__row {
+    grid-template-columns: 1fr;
+  }
+
+  .shot-type-card__fga {
+    text-align: left;
+  }
+}

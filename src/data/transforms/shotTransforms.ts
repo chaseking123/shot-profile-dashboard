@@ -48,7 +48,7 @@ export function buildDate(year: number, month: number, day: number): string {
 }
 
 export function getShotClockBucket(shotClock: number | null): ShotClockBucket {
-  if (shotClock === null) return "unknown";
+  if (shotClock === null) return "middle";
   if (shotClock <= 4) return "very_late";
   if (shotClock <= 7) return "late";
   if (shotClock <= 15) return "middle";
@@ -63,7 +63,7 @@ export function getCreationType(shot: {
   if (shot.catchAndShoot) return "catch_and_shoot";
   if (shot.assisted) return "assisted";
   if ((shot.dribblesBefore ?? 0) > 0) return "off_dribble";
-  return "self_created";
+  return "off_dribble";
 }
 
 function parseShotType(value: unknown): ShotType | null {
@@ -80,7 +80,7 @@ function parseComplexShotType(value: unknown): ComplexShotType | null {
 
 function parseContestLevel(value: unknown): ContestLevel {
   const normalized = String(value ?? "").trim().toLowerCase();
-  if (!isKnownEnumValue(CONTEST_LEVELS, normalized)) return "unknown";
+  if (!isKnownEnumValue(CONTEST_LEVELS, normalized)) return "lightly_contested";
   return contestLevelSchema.parse(normalized);
 }
 
