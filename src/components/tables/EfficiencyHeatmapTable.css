@@ -1,0 +1,161 @@
+.efficiency-table-card__table-wrap {
+  overflow-x: auto;
+}
+
+.efficiency-table-card__scroll {
+  max-height: 400px;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+}
+
+.efficiency-table-card__sticky {
+  padding-top: 0;
+}
+
+.efficiency-table {
+  table-layout: fixed;
+  min-width: 720px;
+}
+
+.efficiency-table__player-head,
+.efficiency-table__player-cell {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: inherit;
+}
+
+.efficiency-table__player-cell {
+  font-weight: 600;
+  width: 180px;
+}
+
+.efficiency-table__player-head {
+  width: 180px;
+}
+
+.efficiency-table__metric-head,
+.efficiency-table__metric-cell {
+  text-align: center;
+  width: 90px;
+}
+
+.efficiency-table__metric-cell {
+  font-variant-numeric: tabular-nums;
+  min-width: 90px;
+}
+
+.efficiency-table__metric-cell--neutral {
+  background: #f8fafc;
+}
+
+.efficiency-table__metric-cell--positive-strong {
+  background: #7be3a1;
+}
+
+.efficiency-table__metric-cell--positive-soft {
+  background: #bbf7d0;
+}
+
+.efficiency-table__metric-cell--negative-strong {
+  background: #fca5a5;
+}
+
+.efficiency-table__metric-cell--negative-soft {
+  background: #fecdd3;
+}
+
+.efficiency-table__metric-cell--balanced {
+  background: #fef3c7;
+}
+
+.efficiency-table__row--team-average {
+  background: #e2e8f0;
+}
+
+.efficiency-table__row--highlighted {
+  position: relative;
+}
+
+.efficiency-table__row--highlighted .ui-table__cell {
+  box-shadow: inset 0 1px 0 #60a5fa, inset 0 -1px 0 #60a5fa;
+}
+
+.efficiency-table__row--highlighted .ui-table__cell:first-child {
+  box-shadow:
+    inset 1px 0 0 #60a5fa,
+    inset 0 1px 0 #60a5fa,
+    inset 0 -1px 0 #60a5fa,
+    0 0 0 1px #bfdbfe;
+}
+
+.efficiency-table__row--highlighted .ui-table__cell:last-child {
+  box-shadow:
+    inset -1px 0 0 #60a5fa,
+    inset 0 1px 0 #60a5fa,
+    inset 0 -1px 0 #60a5fa,
+    0 0 0 1px #bfdbfe;
+}
+
+.efficiency-table__value {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  min-width: 56px;
+  margin-inline: auto;
+  border-radius: 10px;
+  font-weight: 700;
+  width: 100%;
+}
+
+.efficiency-table__dash {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  color: #94a3b8;
+}
+
+.efficiency-table__sort-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #0f172a;
+  font: inherit;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.efficiency-table__sort-button:hover {
+  color: #1d4ed8;
+}
+
+.efficiency-table__sort-button--active {
+  color: #1d4ed8;
+}
+
+.efficiency-table__sort-indicator {
+  min-width: 10px;
+  color: #1d4ed8;
+}
+
+.efficiency-table-card .dashboard-card__header {
+  padding-bottom: 20px;
+}
+
+.efficiency-table .ui-table__head {
+  font-size: 0.95rem;
+}
+
+@media (max-width: 900px) {
+  .efficiency-table__player-head {
+    width: 140px;
+  }
+}

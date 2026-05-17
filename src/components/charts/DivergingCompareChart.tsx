@@ -144,12 +144,7 @@ export function DivergingCompareChart({
       </div>
 
       <div className="chart-frame">
-        <ChartContainer
-          config={{
-            delta: { label: `${player1Name} (left) vs ${player2Name} (right)`, color: "#2563eb" },
-          }}
-          className="chart-frame__inner"
-        >
+        <ChartContainer className="chart-frame__inner">
           <BarChart layout="vertical" data={chartData} margin={{ top: 12, right: 48, left: 48, bottom: 28 }}>
             <CartesianGrid horizontal={false} stroke="#e2e8f0" />
             <XAxis

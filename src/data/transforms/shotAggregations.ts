@@ -171,15 +171,3 @@ export function buildTeamAverageEfficiencyRow(shots: ShotRecord[]): EfficiencyBy
     isTeamAverage: true,
   };
 }
-
-export function getEfficiencyDeltaClass(value: number | null, teamAverage: number | null) {
-  if (value === null || teamAverage === null) return "bg-slate-50";
-
-  const delta = value - teamAverage;
-  if (delta >= 5) return "bg-green-200";
-  if (delta >= 2) return "bg-green-100";
-  if (delta <= -5) return "bg-red-200";
-  if (delta <= -2) return "bg-red-100";
-
-  return "bg-yellow-100";
-}

@@ -12,14 +12,14 @@ function formatPercentValue(value: string | number | undefined) {
 }
 
 type ChartContainerProps = {
-  config: ChartConfig;
+  config?: ChartConfig;
   className?: string;
   children: ReactNode;
 };
 
 export function ChartContainer({ config, className, children }: ChartContainerProps) {
   return (
-    <ChartConfigContext.Provider value={config}>
+    <ChartConfigContext.Provider value={config ?? {}}>
       <div className={className ?? "chart-frame"}>
         <ResponsiveContainer width="100%" height="100%">
           {children as ReactElement}

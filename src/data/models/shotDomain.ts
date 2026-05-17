@@ -35,7 +35,6 @@ export type ContestLevel = (typeof CONTEST_LEVELS)[number];
 export const CREATION_TYPES = [
   "catch_and_shoot",
   "off_dribble",
-  "assisted",
 ] as const;
 export type CreationType = (typeof CREATION_TYPES)[number];
 

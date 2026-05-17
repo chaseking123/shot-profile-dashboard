@@ -30,7 +30,6 @@ const FILTER_LABELS: Record<string, string> = {
   heavily_contested: "Heavily Contested",
   catch_and_shoot: "Catch & Shoot",
   off_dribble: "Off Dribble",
-  assisted: "Assisted",
   early: "Early Clock",
   middle: "Middle Clock",
   late: "Late Clock",

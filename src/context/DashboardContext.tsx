@@ -63,6 +63,14 @@ declare global {
 
 const DashboardContext = createContext<DashboardContextValue | null>(null);
 
+function withEfficiencyHiddenFiltersReset(filters: DashboardFilters): DashboardFilters {
+  return {
+    ...filters,
+    shotType: DEFAULT_FILTERS.shotType,
+    outcome: DEFAULT_FILTERS.outcome,
+  };
+}
+
 function getInitialCompareSelections(
   filterOptions: FilterOptionsResponse | null,
 ): CompareSelectionState {
@@ -76,7 +84,7 @@ function getInitialCompareSelections(
 }
 
 export function DashboardProvider({ children }: { children: ReactNode }) {
-  const [activeView, setActiveView] = useState<DashboardView>("shot-type");
+  const [activeView, setActiveViewState] = useState<DashboardView>("shot-type");
   const [filters, setFilters] = useState<DashboardFilters>(DEFAULT_FILTERS);
   const [pendingFilters, setPendingFiltersState] = useState<DashboardFilters>(DEFAULT_FILTERS);
   const [filterOptions, setFilterOptions] = useState<FilterOptionsResponse | null>(null);
@@ -100,6 +108,15 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
   const applyFilters = useCallback(() => {
     setFilters(pendingFilters);
   }, [pendingFilters]);
+
+  const setActiveView = useCallback((view: DashboardView) => {
+    setActiveViewState(view);
+
+    if (view === "efficiency") {
+      setFilters((current) => withEfficiencyHiddenFiltersReset(current));
+      setPendingFiltersState((current) => withEfficiencyHiddenFiltersReset(current));
+    }
+  }, []);
 
   const resetFilters = useCallback(() => {
     setPendingFiltersState(DEFAULT_FILTERS);

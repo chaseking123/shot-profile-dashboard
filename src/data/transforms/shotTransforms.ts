@@ -57,12 +57,8 @@ export function getShotClockBucket(shotClock: number | null): ShotClockBucket {
 
 export function getCreationType(shot: {
   catchAndShoot: boolean;
-  assisted: boolean;
-  dribblesBefore: number | null;
 }): CreationType {
   if (shot.catchAndShoot) return "catch_and_shoot";
-  if (shot.assisted) return "assisted";
-  if ((shot.dribblesBefore ?? 0) > 0) return "off_dribble";
   return "off_dribble";
 }
 
@@ -143,8 +139,6 @@ export function normalizeShotRow(row: RawShotCsvRow): ShotRecord | null {
     shotClockBucket: getShotClockBucket(parseNumber(parsedRow.data.shot_clock)),
     creationType: getCreationType({
       catchAndShoot,
-      assisted,
-      dribblesBefore,
     }),
   };
 

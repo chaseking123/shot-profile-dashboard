@@ -1,0 +1,39 @@
+.ui-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: #0f172a;
+}
+
+.ui-table__header-row {
+  background: #f8fafc;
+}
+
+.ui-table__body-row {
+  background: #ffffff;
+}
+
+.ui-table__body-row + .ui-table__body-row .ui-table__cell,
+.ui-table__body-row + .ui-table__body-row .ui-table__head {
+  border-top: 1px solid #e2e8f0;
+}
+
+.ui-table__head,
+.ui-table__cell {
+  padding: 14px 16px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.ui-table__head {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #0f172a;
+}
+
+.ui-table__cell {
+  font-size: 0.95rem;
+  color: #0f172a;
+}
