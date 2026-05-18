@@ -1,3 +1,7 @@
+/*
+This component renders the dashboard's two-button sidebar navigation for switching between views.
+It applies the active-state styling and forwards selection changes to the parent shell.
+*/
 import "./SidebarNav.css";
 
 import { Activity, BarChart3 } from "lucide-react";

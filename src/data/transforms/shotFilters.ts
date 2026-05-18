@@ -1,3 +1,7 @@
+/*
+This file applies the currently selected dashboard filters to the normalized shot dataset.
+It handles inclusive date bounds and the shared multi-select filter behavior.
+*/
 import { FILTER_ALL } from "../models/shotDomain";
 import type { ShotRecord } from "../models/shotSchemas";
 import type { DashboardFilters } from "../api/shotAnalyticsApi";

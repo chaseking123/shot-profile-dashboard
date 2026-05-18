@@ -1,3 +1,7 @@
+/*
+This file defines the dashboard view union and the default filter state used when the app initializes or resets.
+It keeps shared state defaults separate from the provider implementation.
+*/
 import type { DashboardFilters } from "../data/api/shotAnalyticsApi";
 import {
   CONTEST_LEVELS,

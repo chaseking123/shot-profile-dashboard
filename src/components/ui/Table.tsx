@@ -1,3 +1,7 @@
+/*
+This file provides thin table wrapper components with shared class names for consistent styling.
+It keeps the dashboard tables readable without repeating table markup conventions everywhere.
+*/
 import "./Table.css";
 
 import type { HTMLAttributes, TableHTMLAttributes, TdHTMLAttributes, ThHTMLAttributes } from "react";

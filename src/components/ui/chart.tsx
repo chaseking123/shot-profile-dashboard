@@ -1,3 +1,7 @@
+/*
+This file contains lightweight chart wrapper components shared by the dashboard's Recharts visualizations.
+It standardizes responsive sizing plus reusable tooltip and legend rendering helpers.
+*/
 import type { ReactElement, ReactNode } from "react";
 import { createContext, useContext } from "react";
 import { Legend, ResponsiveContainer, Tooltip } from "recharts";

@@ -1,11 +1,14 @@
-import { useEffect, useMemo, useState } from "react";
-
+/*
+This view renders the efficiency dashboard screen, including its filters, heatmap table, and comparison chart.
+It derives player comparison data from the shared efficiency rows already loaded in context.
+*/
 import { useDashboardContext } from "../../context/DashboardContext";
 import { buildEfficiencyPlayerComparisonFromRows } from "../../data/transforms/shotAggregations";
 import { DivergingCompareChart } from "../charts/DivergingCompareChart";
 import { FilterToolbar } from "../filters/FilterToolbar";
 import { PageHeader } from "../layout/PageHeader";
 import { EfficiencyHeatmapTable } from "../tables/EfficiencyHeatmapTable";
+import { useCompareSelection } from "./useCompareSelection";
 
 export function EfficiencyView() {
   const {
@@ -19,50 +22,18 @@ export function EfficiencyView() {
     applyFilters,
     resetFilters,
   } = useDashboardContext();
-  const comparePlayerOptions = useMemo(
-    () =>
-      efficiencyRows
-        .filter((row) => !row.isTeamAverage)
-        .map((row) => ({
-          shooterId: row.shooterId,
-          shooterName: row.shooterName,
-        })),
-    [efficiencyRows],
+  const {
+    playerOptions: comparePlayerOptions,
+    selectedPlayer1Id,
+    selectedPlayer2Id,
+    highlightedPlayerIds,
+    updateCompareSelection,
+  } = useCompareSelection(
+    "efficiency",
+    efficiencyRows,
+    compareSelections.efficiency,
+    setCompareSelection,
   );
-  const availablePlayerIds = new Set(comparePlayerOptions.map((player) => player.shooterId));
-  const fallbackPlayer1Id = comparePlayerOptions[0]?.shooterId ?? "";
-  const fallbackPlayer2Id = comparePlayerOptions[1]?.shooterId ?? fallbackPlayer1Id;
-  const syncedPlayer1Id = availablePlayerIds.has(compareSelections.efficiency.player1Id)
-    ? compareSelections.efficiency.player1Id
-    : fallbackPlayer1Id;
-  const syncedPlayer2Id = availablePlayerIds.has(compareSelections.efficiency.player2Id)
-    ? compareSelections.efficiency.player2Id
-    : fallbackPlayer2Id;
-  const [localCompareSelection, setLocalCompareSelection] = useState({
-    player1Id: syncedPlayer1Id,
-    player2Id: syncedPlayer2Id,
-  });
-
-  useEffect(() => {
-    setLocalCompareSelection((current) => {
-      if (current.player1Id === syncedPlayer1Id && current.player2Id === syncedPlayer2Id) {
-        return current;
-      }
-
-      return {
-        player1Id: syncedPlayer1Id,
-        player2Id: syncedPlayer2Id,
-      };
-    });
-  }, [syncedPlayer1Id, syncedPlayer2Id]);
-
-  const selectedPlayer1Id = localCompareSelection.player1Id;
-  const selectedPlayer2Id = localCompareSelection.player2Id;
-
-  function updateCompareSelection(next: { player1Id: string; player2Id: string }) {
-    setLocalCompareSelection(next);
-    setCompareSelection("efficiency", next);
-  }
 
   const compareData = buildEfficiencyPlayerComparisonFromRows(
     efficiencyRows,
@@ -72,7 +43,6 @@ export function EfficiencyView() {
     shotType: row.shotType.charAt(0).toUpperCase() + row.shotType.slice(1),
     delta: Number(row.delta.toFixed(1)),
   }));
-  const highlightedPlayers = [selectedPlayer1Id, selectedPlayer2Id].filter(Boolean);
 
   return (
     <section className="dashboard-view">
@@ -93,7 +63,7 @@ export function EfficiencyView() {
           filterOptions={filterOptions}
         />
       ) : null}
-      <EfficiencyHeatmapTable rows={efficiencyRows} highlightedPlayerIds={highlightedPlayers} />
+      <EfficiencyHeatmapTable rows={efficiencyRows} highlightedPlayerIds={highlightedPlayerIds} />
       {comparePlayerOptions.length > 0 ? (
         <DivergingCompareChart
           player1={selectedPlayer1Id}

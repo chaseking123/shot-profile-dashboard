@@ -1,3 +1,7 @@
+/*
+This component renders the paired date inputs used for inclusive from/to filtering.
+It constrains the available range so users cannot pick an inverted date window.
+*/
 import "./DateRangeFilter.css";
 
 type DateRangeFilterProps = {

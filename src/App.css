@@ -1,3 +1,7 @@
+/*
+This stylesheet defines shared card and view spacing used across the dashboard screens.
+It also includes the base error-state styling for failed data loads.
+*/
 .dashboard-view {
   display: flex;
   flex-direction: column;
@@ -17,8 +21,17 @@
   background: #fef2f2;
 }
 
+.dashboard-card--warning {
+  border-color: #fde68a;
+  background: #fffbeb;
+}
+
 .dashboard-card h2 {
   margin-top: 0;
+}
+
+.dashboard-card p:last-child {
+  margin-bottom: 0;
 }
 
 .dashboard-card code {

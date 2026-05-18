@@ -1,11 +1,14 @@
-import { useEffect, useMemo, useState } from "react";
-
+/*
+This view renders the shot-type dashboard screen, including its filters, stacked distribution table, and comparison chart.
+It derives compare data from the shared shot-type rows already loaded in context.
+*/
 import { useDashboardContext } from "../../context/DashboardContext";
 import { buildShotTypePlayerComparisonFromRows } from "../../data/transforms/shotAggregations";
 import { DivergingCompareChart } from "../charts/DivergingCompareChart";
 import { ShotTypeStackedBarChart } from "../charts/ShotTypeStackedBarChart";
 import { FilterToolbar } from "../filters/FilterToolbar";
 import { PageHeader } from "../layout/PageHeader";
+import { useCompareSelection } from "./useCompareSelection";
 
 export function ShotTypeView() {
   const {
@@ -19,50 +22,18 @@ export function ShotTypeView() {
     applyFilters,
     resetFilters,
   } = useDashboardContext();
-  const comparePlayerOptions = useMemo(
-    () =>
-      shotTypeRows
-        .filter((row) => !row.isTeamAverage)
-        .map((row) => ({
-          shooterId: row.shooterId,
-          shooterName: row.shooterName,
-        })),
-    [shotTypeRows],
+  const {
+    playerOptions: comparePlayerOptions,
+    selectedPlayer1Id,
+    selectedPlayer2Id,
+    highlightedPlayerIds,
+    updateCompareSelection,
+  } = useCompareSelection(
+    "shot-type",
+    shotTypeRows,
+    compareSelections.shotType,
+    setCompareSelection,
   );
-  const availablePlayerIds = new Set(comparePlayerOptions.map((player) => player.shooterId));
-  const fallbackPlayer1Id = comparePlayerOptions[0]?.shooterId ?? "";
-  const fallbackPlayer2Id = comparePlayerOptions[1]?.shooterId ?? fallbackPlayer1Id;
-  const syncedPlayer1Id = availablePlayerIds.has(compareSelections.shotType.player1Id)
-    ? compareSelections.shotType.player1Id
-    : fallbackPlayer1Id;
-  const syncedPlayer2Id = availablePlayerIds.has(compareSelections.shotType.player2Id)
-    ? compareSelections.shotType.player2Id
-    : fallbackPlayer2Id;
-  const [localCompareSelection, setLocalCompareSelection] = useState({
-    player1Id: syncedPlayer1Id,
-    player2Id: syncedPlayer2Id,
-  });
-
-  useEffect(() => {
-    setLocalCompareSelection((current) => {
-      if (current.player1Id === syncedPlayer1Id && current.player2Id === syncedPlayer2Id) {
-        return current;
-      }
-
-      return {
-        player1Id: syncedPlayer1Id,
-        player2Id: syncedPlayer2Id,
-      };
-    });
-  }, [syncedPlayer1Id, syncedPlayer2Id]);
-
-  const selectedPlayer1Id = localCompareSelection.player1Id;
-  const selectedPlayer2Id = localCompareSelection.player2Id;
-
-  function updateCompareSelection(next: { player1Id: string; player2Id: string }) {
-    setLocalCompareSelection(next);
-    setCompareSelection("shot-type", next);
-  }
 
   const compareData = buildShotTypePlayerComparisonFromRows(
     shotTypeRows,
@@ -72,7 +43,6 @@ export function ShotTypeView() {
     shotType: row.shotType.charAt(0).toUpperCase() + row.shotType.slice(1),
     delta: Number(row.delta.toFixed(1)),
   }));
-  const highlightedPlayers = [selectedPlayer1Id, selectedPlayer2Id].filter(Boolean);
 
   return (
     <section className="dashboard-view">
@@ -95,7 +65,7 @@ export function ShotTypeView() {
           filterOptions={filterOptions}
         />
       ) : null}
-      <ShotTypeStackedBarChart rows={shotTypeRows} highlightedPlayerIds={highlightedPlayers} />
+      <ShotTypeStackedBarChart rows={shotTypeRows} highlightedPlayerIds={highlightedPlayerIds} />
       {comparePlayerOptions.length > 0 ? (
         <DivergingCompareChart
           player1={selectedPlayer1Id}

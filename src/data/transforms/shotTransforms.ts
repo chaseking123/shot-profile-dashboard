@@ -1,3 +1,7 @@
+/*
+This file converts raw CSV rows into validated, normalized shot records the rest of the app can trust.
+It also contains small parsing helpers for dates, booleans, numeric values, and derived shot attributes.
+*/
 import {
   COMPLEX_SHOT_TYPES,
   CONTEST_LEVELS,

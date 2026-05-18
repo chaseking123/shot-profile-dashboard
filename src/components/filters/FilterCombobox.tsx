@@ -1,3 +1,7 @@
+/*
+This component renders the custom multi-select combobox used for non-date dashboard filters.
+It handles open state, outside clicks, all-selection behavior, and summary labeling.
+*/
 import "./FilterCombobox.css";
 
 import { Check, ChevronDown } from "lucide-react";

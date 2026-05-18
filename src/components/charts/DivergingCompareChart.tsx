@@ -1,3 +1,7 @@
+/*
+This component renders the two-player diverging bar chart used to compare shot-type or efficiency deltas.
+It also includes the player selectors and the chart-specific tooltip and legend content.
+*/
 import "./DivergingCompareChart.css";
 
 import { useId } from "react";

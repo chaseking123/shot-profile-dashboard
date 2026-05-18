@@ -1,3 +1,7 @@
+/*
+This component provides the main dashboard shell with sidebar navigation and the content region.
+It is the shared page layout wrapper for both dashboard views.
+*/
 import "./DashboardShell.css";
 
 import type { ReactNode } from "react";

@@ -1,3 +1,7 @@
+/*
+This file defines the dashboard API contract, including shared filter types and response row shapes.
+It is the boundary the UI uses to ask for filter metadata and aggregated shot analytics.
+*/
 import type {
   ContestLevel,
   CreationType,

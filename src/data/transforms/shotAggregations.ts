@@ -1,3 +1,7 @@
+/*
+This file turns filtered shot records into the aggregated rows and option metadata consumed by the UI.
+It contains the shared grouping, percentage, and comparison helpers for both dashboard views.
+*/
 import {
   FILTERABLE_CONTEST_LEVELS,
   FILTERABLE_CREATION_TYPES,
@@ -31,6 +35,7 @@ function groupBy<TItem, TKey extends string>(items: TItem[], getKey: (item: TIte
   }, {} as Record<TKey, TItem[]>);
 }
 
+// Rounding helper to round to 1 decimal place for cleaner percentage displays in the UI
 function round1(value: number) {
   return Math.round(value * 10) / 10;
 }
@@ -50,6 +55,7 @@ export function calculateFgPct(shots: ShotRecord[]): number | null {
   return round1((fgm / shots.length) * 100);
 }
 
+// The functions below build the specific aggregated row shapes and filter option metadata expected by the UI from the normalized shot records.
 export function buildFilterOptions(shots: ShotRecord[]): FilterOptionsResponse {
   const dates = [...new Set(shots.map((shot) => shot.date))].sort();
   const players = [...new Map(shots.map((shot) => [shot.shooterId, {

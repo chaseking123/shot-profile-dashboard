@@ -1,3 +1,7 @@
+/*
+This component renders the efficiency-by-shot-type table with sortable columns and heatmap-style cell coloring.
+It keeps the team average row visible and can highlight selected comparison players.
+*/
 import "./EfficiencyHeatmapTable.css";
 
 import { useMemo, useState } from "react";

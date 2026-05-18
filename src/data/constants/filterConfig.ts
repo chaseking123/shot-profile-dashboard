@@ -1,3 +1,7 @@
+/*
+This file builds the reusable filter option lists and human-readable labels shown in the dashboard controls.
+It keeps display text for shared filter values in one place.
+*/
 import {
   CREATION_TYPES,
   FILTERABLE_CONTEST_LEVELS,

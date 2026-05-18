@@ -1,3 +1,7 @@
+/*
+This component renders the shot distribution view as a sortable stacked-bar table built with HTML and CSS.
+It highlights selected players and keeps the team average pinned to the bottom.
+*/
 import "./ShotTypeStackedBarChart.css";
 
 import { useMemo, useState } from "react";

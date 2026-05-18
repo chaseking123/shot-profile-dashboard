@@ -1,3 +1,7 @@
+/*
+This component wraps the app's shared button styles behind a small variant-based API.
+It keeps dashboard actions consistent without repeating class assembly logic.
+*/
 import "./Button.css";
 
 import type { ButtonHTMLAttributes, ReactNode } from "react";

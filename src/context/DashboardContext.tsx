@@ -1,3 +1,7 @@
+/*
+This file owns the shared dashboard state, data loading, and view-level actions used across the app.
+It exposes a provider and hook so both screens can read filters, results, and compare selections from one place.
+*/
 import {
   createContext,
   useCallback,
@@ -8,14 +12,18 @@ import {
   type ReactNode,
 } from "react";
 
-import { csvShotAnalyticsApi, getCachedShotsForDebug, preloadShotData } from "../data/api/csvShotAnalyticsApi";
+import {
+  clearShotDataCache,
+  csvShotAnalyticsApi,
+  getShotDataDiagnostics,
+  preloadShotData,
+} from "../data/api/csvShotAnalyticsApi";
 import type {
   DashboardFilters,
   EfficiencyByShotTypeRow,
   FilterOptionsResponse,
   ShotTypeDistributionRow,
 } from "../data/api/shotAnalyticsApi";
-import type { ShotRecord } from "../data/models/shotSchemas";
 import { DEFAULT_FILTERS, type DashboardView } from "./dashboardState";
 
 type CompareSelectionState = {
@@ -39,30 +47,22 @@ type DashboardContextValue = {
   compareSelections: CompareSelectionState;
   isLoading: boolean;
   error: string | null;
+  dataWarning: string | null;
   setActiveView: (view: DashboardView) => void;
   setPendingFilters: (updater: DashboardFilters | ((current: DashboardFilters) => DashboardFilters)) => void;
   applyFilters: () => void;
   resetFilters: () => void;
+  retryDashboardData: () => void;
   setCompareSelection: (
     view: DashboardView,
     next: { player1Id: string; player2Id: string },
   ) => void;
 };
 
-type DashboardDebugHandle = {
-  shots: ShotRecord[];
-  getCachedShots: typeof getCachedShotsForDebug;
-  api: typeof csvShotAnalyticsApi;
-};
-
-declare global {
-  interface Window {
-    __shotDataDebug?: DashboardDebugHandle;
-  }
-}
-
 const DashboardContext = createContext<DashboardContextValue | null>(null);
 
+// This helper resets filters that are not applicable to the efficiency view when switching views to prevent confusion from stale selections. 
+// The shot type and outcome filters don't apply to the efficiency view since it shows overall FG% by shot type rather than frequency of different shot types, so we reset those to "all" when switching to efficiency.
 function withEfficiencyHiddenFiltersReset(filters: DashboardFilters): DashboardFilters {
   return {
     ...filters,
@@ -71,6 +71,7 @@ function withEfficiencyHiddenFiltersReset(filters: DashboardFilters): DashboardF
   };
 }
 
+// Initializes the player comparison selections to the first two players in the filter options if available, or empty strings if not.
 function getInitialCompareSelections(
   filterOptions: FilterOptionsResponse | null,
 ): CompareSelectionState {
@@ -83,6 +84,8 @@ function getInitialCompareSelections(
   };
 }
 
+// The provider component that wraps the dashboard views and manages all shared state, data loading, and actions. 
+// It fetches the filter options and initial shot analytics on mount, and refetches analytics when filters are applied.
 export function DashboardProvider({ children }: { children: ReactNode }) {
   const [activeView, setActiveViewState] = useState<DashboardView>("shot-type");
   const [filters, setFilters] = useState<DashboardFilters>(DEFAULT_FILTERS);
@@ -95,6 +98,8 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
   );
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [dataWarning, setDataWarning] = useState<string | null>(null);
+  const [reloadVersion, setReloadVersion] = useState(0);
 
   const setPendingFilters = useCallback(
     (updater: DashboardFilters | ((current: DashboardFilters) => DashboardFilters)) => {
@@ -123,6 +128,11 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
     setFilters(DEFAULT_FILTERS);
   }, []);
 
+  const retryDashboardData = useCallback(() => {
+    clearShotDataCache();
+    setReloadVersion((current) => current + 1);
+  }, []);
+
   const setCompareSelection = useCallback(
     (view: DashboardView, next: { player1Id: string; player2Id: string }) => {
       setCompareSelections((current) => ({
@@ -141,7 +151,7 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
       setError(null);
 
       try {
-        const shots = await preloadShotData();
+        await preloadShotData();
         const options = await csvShotAnalyticsApi.getFilterOptions();
         const [shotTypeResponse, efficiencyResponse] = await Promise.all([
           csvShotAnalyticsApi.getShotTypeByPlayer(DEFAULT_FILTERS),
@@ -150,19 +160,15 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
 
         if (cancelled) return;
 
-        window.__shotDataDebug = {
-          shots,
-          getCachedShots: getCachedShotsForDebug,
-          api: csvShotAnalyticsApi,
-        };
-
         setFilterOptions(options);
         setShotTypeRows(shotTypeResponse.rows);
         setEfficiencyRows(efficiencyResponse.rows);
         setCompareSelections(getInitialCompareSelections(options));
+        setDataWarning(getShotDataDiagnostics()?.warningMessage ?? null);
       } catch (caughtError) {
         if (cancelled) return;
 
+        setDataWarning(null);
         setError(caughtError instanceof Error ? caughtError.message : "Failed to load dashboard data.");
       } finally {
         if (!cancelled) {
@@ -176,7 +182,7 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [reloadVersion]);
 
   useEffect(() => {
     let cancelled = false;
@@ -195,6 +201,7 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
 
         setShotTypeRows(shotTypeResponse.rows);
         setEfficiencyRows(efficiencyResponse.rows);
+        setDataWarning(getShotDataDiagnostics()?.warningMessage ?? null);
       } catch (caughtError) {
         if (cancelled) return;
 
@@ -224,10 +231,12 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
       compareSelections,
       isLoading,
       error,
+      dataWarning,
       setActiveView,
       setPendingFilters,
       applyFilters,
       resetFilters,
+      retryDashboardData,
       setCompareSelection,
     }),
     [
@@ -240,9 +249,12 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
       compareSelections,
       isLoading,
       error,
+      dataWarning,
+      setActiveView,
       setPendingFilters,
       applyFilters,
       resetFilters,
+      retryDashboardData,
       setCompareSelection,
     ],
   );

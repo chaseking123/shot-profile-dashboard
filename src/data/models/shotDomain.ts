@@ -1,3 +1,7 @@
+/*
+This file is the single source of truth for the dashboard's shared domain values like shot types and filter enums.
+It exports the readonly arrays and derived TypeScript types reused across the data and UI layers.
+*/
 export const FILTER_ALL = "all" as const;
 
 export const SHOT_TYPES = ["layup", "post", "floater", "jumper", "heave"] as const;

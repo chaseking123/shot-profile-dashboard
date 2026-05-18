@@ -1,3 +1,7 @@
+/*
+This component renders the simple page title shown at the top of each dashboard view.
+It keeps header structure consistent between screens.
+*/
 import "./PageHeader.css";
 
 type PageHeaderProps = {

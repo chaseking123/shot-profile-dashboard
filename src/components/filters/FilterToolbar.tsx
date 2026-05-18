@@ -1,3 +1,7 @@
+/*
+This component assembles the shared filter controls used by the dashboard views.
+It manages which filters are visible and wires pending filter changes to apply and reset actions.
+*/
 import "./FilterToolbar.css";
 
 import { RotateCcw } from "lucide-react";

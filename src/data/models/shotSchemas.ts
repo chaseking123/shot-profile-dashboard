@@ -1,3 +1,7 @@
+/*
+This file defines the raw CSV and normalized shot record schemas used throughout the app.
+It centralizes validation rules and shared record shape types for ingestion and analytics.
+*/
 import { z } from "zod";
 
 import {
