@@ -115,7 +115,7 @@ Available scripts:
   - Saved filter presets such as 'last 5 games' or shareable URL query state
   - Support for richer derived metrics such as eFG% (3 pointer based on axis data), per-game splits, complex shot type, shot maps, etc. 
 
-## Notes On How We Would Extend This If The Dataset Were Much Larger
+## Notes On Extending If The Dataset Were Much Larger
 
 - Move parsing and aggregation off the client and into a backend service.
   - The browser should request the answer needed for the current screen instead of downloading and processing the full raw dataset.
