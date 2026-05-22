@@ -50,8 +50,10 @@ Available scripts:
 - Two dashboard views available in sidebar nav:
   - Shot Type
     - **Answers question: 'Which players are taking which types of shots?'**
+    - <img width="1827" height="987" alt="shot-type-view-with-filters" src="https://github.com/user-attachments/assets/1717629b-f6e7-4a34-850b-23299f16e0ac" />
   - Efficiency
     - **Answers question: 'Which shots are efficient or inefficient?'**
+    - <img width="1903" height="916" alt="efficiency-view-default" src="https://github.com/user-attachments/assets/87366e8f-b0d4-408e-83fe-f5ff3210e3b1" />
 - Shared filter toolbar across both views. Allows the user to alter the context related to displayed shot data.
   - **Answers question: 'How does shot-making change by context?'**
   - Possible filters:
@@ -70,6 +72,7 @@ Available scripts:
   - 'Compare Players' diverging compare chart
     - Player-to-player comparison chart based on already loaded rows
     - Allows for teammate comparison for players that are not close to each other in 'Shot Type by Player' chart.
+    - <img width="1905" height="918" alt="shot-type-view-compare-players" src="https://github.com/user-attachments/assets/84f550f3-3e44-4a36-b63f-b59ed7603657" />
 - Efficiency view:
   - 'Efficiency by Shot type' heatmap table displays what FG% players are shooting for each type of available shot.
     - FG% by shot type and player
