@@ -141,6 +141,7 @@ The dashboard is designed for a coaching staff, front office, or analytics team 
   - The downside is that compare logic is tied to the aggregation level of each top-level view.
 - Future improvements:
   - Add unit tests around parsing, filtering, aggregation, and compare-player behavior.
+  - Complex shot data.
   - Add a real API call implementation and backend service.
   - Add the ability to save filter presets such as `last 5 games`, `ignore late shot clock` or shareable URL query state.
   - Add richer derived metrics such as league average data, points per shot, per-game splits, complex shot type, or shot maps.
